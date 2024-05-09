@@ -1,6 +1,5 @@
 import textwrap
 
-
 def menu():
     menu = """\n
     ================ MENU ================
@@ -116,45 +115,45 @@ def main():
 
     while True:
         opcao = menu()
+        match opcao:
+            case "d":
+                valor = float(input("Informe o valor do depósito: "))
 
-        if opcao == "d":
-            valor = float(input("Informe o valor do depósito: "))
+                saldo, extrato = depositar(saldo, valor, extrato)
 
-            saldo, extrato = depositar(saldo, valor, extrato)
+            case "s":
+                valor = float(input("Informe o valor do saque: "))
 
-        elif opcao == "s":
-            valor = float(input("Informe o valor do saque: "))
+                saldo, extrato = sacar(
+                    saldo=saldo,
+                    valor=valor,
+                    extrato=extrato,
+                    limite=limite,
+                    numero_saques=numero_saques,
+                    limite_saques=LIMITE_SAQUES,
+                )
 
-            saldo, extrato = sacar(
-                saldo=saldo,
-                valor=valor,
-                extrato=extrato,
-                limite=limite,
-                numero_saques=numero_saques,
-                limite_saques=LIMITE_SAQUES,
-            )
+            case "e":
+                exibir_extrato(saldo, extrato=extrato)
 
-        elif opcao == "e":
-            exibir_extrato(saldo, extrato=extrato)
+            case "nu":
+                criar_usuario(usuarios)
 
-        elif opcao == "nu":
-            criar_usuario(usuarios)
+            case "nc":
+                numero_conta = len(contas) + 1
+                conta = criar_conta(AGENCIA, numero_conta, usuarios)
 
-        elif opcao == "nc":
-            numero_conta = len(contas) + 1
-            conta = criar_conta(AGENCIA, numero_conta, usuarios)
+                if conta:
+                    contas.append(conta)
 
-            if conta:
-                contas.append(conta)
+            case "lc":
+                listar_contas(contas)
 
-        elif opcao == "lc":
-            listar_contas(contas)
+            case "q":
+                break
 
-        elif opcao == "q":
-            break
-
-        else:
-            print("Operação inválida, por favor selecione novamente a operação desejada.")
+            case _:
+                print("Operação inválida, por favor selecione novamente a operação desejada.")
 
 
 main()
